@@ -9,8 +9,6 @@ class WeatherData {
   final int pressure;
   final int seaLevel;
   final List<WeatherInfo> weather;
-  // i have alreadt create a mode her according to my requirement you can also create mode according to your requiremnet
-  // if you need like my model all the source code are is in description. you can follow we me.
 
   WeatherData({
     required this.name,
