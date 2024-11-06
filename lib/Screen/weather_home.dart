@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../Model/weather_model.dart';
 import '../Provider/get_data_provider.dart';
-// import '../Widget/menu.dart';
 
 class WeatherHome extends StatelessWidget {
   const WeatherHome({super.key});
@@ -16,7 +15,6 @@ class WeatherHome extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFF676BD0),
-      // drawer: const Menu_Dashboard(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(15),

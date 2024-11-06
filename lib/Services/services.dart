@@ -4,11 +4,12 @@ import '../Model/weather_model.dart';
 
 class WeatherServices {
   static Future<WeatherData> fetchWeather(String lat, String lon) async {
+    const String apiKey = "54eeeb7bb4500782bf24c70fa134e498";
+    final String url =
+        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey";
     try {
-      final response = await http.get(
-        Uri.parse(
-          "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=54eeeb7bb4500782bf24c70fa134e498",
-        ),
+      final http.Response response = await http.get(
+        Uri.parse(url),
       );
 
       if (response.statusCode == 200) {
