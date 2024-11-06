@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:provider/provider.dart';
 import '../Model/weather_model.dart';
-import '../Services/services.dart';
-import '../Widget/menu.dart';
+import '../Provider/get_data_provider.dart';
+// import '../Widget/menu.dart';
 
 class WeatherHome extends StatelessWidget {
   const WeatherHome({super.key});
-
-  // Future method to fetch weather data
-  Future<WeatherData> fetchWeatherData() {
-    return WeatherServices().fetchWeather("14.54248", "49.12424");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +16,12 @@ class WeatherHome extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFF676BD0),
-      drawer: const Menu_Dashboard(),
+      // drawer: const Menu_Dashboard(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: FutureBuilder<WeatherData>(
-            future: fetchWeatherData(),
+            future: context.read<DataProvider>().getData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Display loading indicator while waiting for data
@@ -54,10 +49,8 @@ class WeatherHome extends StatelessWidget {
               } else {
                 // Display message if no data is available
                 return const Center(
-                  child: Text(
-                    'No data available',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text('No data available',
+                      style: TextStyle(color: Colors.white)),
                 );
               }
             },

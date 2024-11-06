@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../Model/weather_model.dart';
 
 class WeatherServices {
-  Future<WeatherData> fetchWeather(String lat, String lon) async {
+  static Future<WeatherData> fetchWeather(String lat, String lon) async {
     try {
       final response = await http.get(
         Uri.parse(
@@ -12,13 +12,12 @@ class WeatherServices {
       );
 
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
+        Map<String, dynamic> json = jsonDecode(response.body);
         return WeatherData.fromJson(json);
       } else {
         throw Exception('Failed to load weather data');
       }
     } catch (e) {
-      print('Error: ${e.toString()}');
       throw Exception('Error fetching weather data');
     }
   }
