@@ -3,42 +3,14 @@ import 'package:intl/intl.dart';
 
 import '../Model/weather_model.dart';
 import '../Services/services.dart';
+import '../Widget/menu.dart';
 
-class WeatherHome extends StatefulWidget {
+class WeatherHome extends StatelessWidget {
   const WeatherHome({super.key});
 
-  @override
-  State<WeatherHome> createState() => _WeatherHomeState();
-}
-
-class _WeatherHomeState extends State<WeatherHome> {
-  late WeatherData weatherInfo;
-  bool isLoading = false;
-  myWeather() {
-    isLoading = false;
-    WeatherServices().fetchWeather().then((value) {
-      setState(() {
-        weatherInfo = value;
-        isLoading = true;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    weatherInfo = WeatherData(
-      name: '',
-      temperature: Temperature(current: 0.0),
-      humidity: 0,
-      wind: Wind(speed: 0.0),
-      maxTemperature: 0,
-      minTemperature: 0,
-      pressure: 0,
-      seaLevel: 0,
-      weather: [],
-    );
-    myWeather();
-    super.initState();
+  // Future method to fetch weather data
+  Future<WeatherData> fetchWeatherData() {
+    return WeatherServices().fetchWeather("14.54248", "49.12424");
   }
 
   @override
@@ -46,25 +18,50 @@ class _WeatherHomeState extends State<WeatherHome> {
     String formattedDate =
         DateFormat('EEEE d, MMMM yyyy').format(DateTime.now());
     String formattedTime = DateFormat('hh:mm a').format(DateTime.now());
+
     return Scaffold(
       backgroundColor: const Color(0xFF676BD0),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: isLoading
-                  ? WeatherDetail(
-                      weather: weatherInfo,
-                      formattedDate: formattedDate,
-                      formattedTime: formattedTime,
-                    )
-                  : const CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-            ),
-          ],
+      drawer: const Menu_Dashboard(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: FutureBuilder<WeatherData>(
+            future: fetchWeatherData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Display loading indicator while waiting for data
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                // Display error message if there was an error
+                return Center(
+                  child: Text(
+                    'Error loading weather data: ${snapshot.error}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
+              } else if (snapshot.hasData) {
+                // Display weather details if data is loaded
+                WeatherData weatherInfo = snapshot.data!;
+                return WeatherDetail(
+                  weather: weatherInfo,
+                  formattedDate: formattedDate,
+                  formattedTime: formattedTime,
+                );
+              } else {
+                // Display message if no data is available
+                return const Center(
+                  child: Text(
+                    'No data available',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
