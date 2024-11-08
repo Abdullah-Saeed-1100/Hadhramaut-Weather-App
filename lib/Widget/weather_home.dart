@@ -22,7 +22,7 @@ class WeatherDetail extends StatelessWidget {
           weather.name,
           style: const TextStyle(
             fontSize: 25,
-            color: Colors.white,
+            color: Colors.yellow,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -31,7 +31,7 @@ class WeatherDetail extends StatelessWidget {
           "${weather.temperature.current.toStringAsFixed(2)}°C",
           style: const TextStyle(
             fontSize: 40,
-            color: Colors.white,
+            color: Colors.yellow,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -55,6 +55,7 @@ class WeatherDetail extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        const SizedBox(height: 7),
         Text(
           formattedTime,
           style: const TextStyle(
@@ -78,99 +79,59 @@ class WeatherDetail extends StatelessWidget {
         Container(
           height: 250,
           decoration: BoxDecoration(
-            color: Colors.deepPurple,
-            borderRadius: BorderRadius.circular(20),
-          ),
+              borderRadius: BorderRadius.circular(20),
+              gradient: const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 31, 87, 133),
+                  Color.fromARGB(255, 68, 149, 216),
+                  Color.fromARGB(255, 31, 87, 133),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                // stops: [
+                //   0.30,
+                //   0.30,
+                //   0.10,
+                // ],
+              )),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.wind_power,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 5),
-                        weatherInfoCard(
-                            title: "Wind", value: "${weather.wind.speed}km/h"),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.sunny,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 5),
-                        weatherInfoCard(
-                            title: "Max",
-                            value:
-                                "${weather.maxTemperature.toStringAsFixed(2)}°C"),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.wind_power,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 5),
-                        weatherInfoCard(
-                            title: "Min",
-                            value:
-                                "${weather.minTemperature.toStringAsFixed(2)}°C"),
-                      ],
-                    ),
+                    weatherInfoCard(
+                        title: "Wind",
+                        value: "${weather.wind.speed}km/h",
+                        icon: Icons.wind_power),
+                    weatherInfoCard(
+                        title: "Max",
+                        value: "${weather.maxTemperature.toStringAsFixed(2)}°C",
+                        icon: Icons.sunny),
+                    weatherInfoCard(
+                        title: "Min",
+                        value: "${weather.minTemperature.toStringAsFixed(2)}°C",
+                        icon: Icons.wind_power),
                   ],
                 ),
-                const Divider(),
+                const Divider(height: 2, color: Colors.white54),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.water_drop,
-                          color: Colors.amber,
-                        ),
-                        const SizedBox(height: 5),
-                        weatherInfoCard(
-                            title: "Humidity", value: "${weather.humidity}%"),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.air,
-                          color: Colors.amber,
-                        ),
-                        const SizedBox(height: 5),
-                        weatherInfoCard(
-                            title: "Pressure", value: "${weather.pressure}hPa"),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.leaderboard,
-                          color: Colors.amber,
-                        ),
-                        const SizedBox(height: 5),
-                        weatherInfoCard(
-                            title: "Sea-Level", value: "${weather.seaLevel}m"),
-                      ],
-                    ),
+                    weatherInfoCard(
+                        title: "Humidity",
+                        value: "${weather.humidity}%",
+                        icon: Icons.water_drop),
+                    weatherInfoCard(
+                        title: "Pressure",
+                        value: "${weather.pressure}hPa",
+                        icon: Icons.air),
+                    weatherInfoCard(
+                        title: "Sea-Level",
+                        value: "${weather.seaLevel}m",
+                        icon: Icons.leaderboard),
                   ],
                 )
               ],
@@ -181,13 +142,19 @@ class WeatherDetail extends StatelessWidget {
     );
   }
 
-  Column weatherInfoCard({required String title, required String value}) {
+  Column weatherInfoCard(
+      {required String title, required String value, required IconData icon}) {
     return Column(
       children: [
+        Icon(
+          icon,
+          color: Colors.white,
+        ),
+        const SizedBox(height: 5),
         Text(
           value,
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.yellow,
             fontWeight: FontWeight.w700,
             fontSize: 18,
           ),
@@ -197,7 +164,7 @@ class WeatherDetail extends StatelessWidget {
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w500,
-            fontSize: 16,
+            fontSize: 15,
           ),
         )
       ],
