@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.6
   interpolate_animated: ^0.0.1
   intl: ^0.18.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
